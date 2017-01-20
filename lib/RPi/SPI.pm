@@ -32,7 +32,7 @@ sub _channel {
 sub _speed {
     my ($self, $speed) = @_;
     $self->{speed} = $speed if defined $speed;
-    return $self->{speed};
+    return $self->{speed} || 1000000;
 }
 
 1;

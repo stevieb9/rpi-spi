@@ -1,5 +1,8 @@
 Revision history for RPi-SPI
 
-0.01    Date/time
+2.36.2 UNREL
+        - we now default to 1MHz speed if not specified in the new() method
+
+2.36.1  Date/time
         First version, released on an unsuspecting world.
 
