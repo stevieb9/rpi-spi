@@ -1,12 +1,11 @@
 Revision history for RPi-SPI
 
-2.36.1 UNREL
-        - we now default to 1MHz speed if not specified in the new() method
-        - we now die() if we can't open or write to the SPI bus
+2.36.1  2017-01-22
+        - initial release (version number matches wiringPi's, plus an
+          incremental trailing decimal place for updates to this module
+        - we default to 1MHz speed if not specified in the new() method
+        - we die() if we can't open or write to the SPI bus
         - changed to using WiringPi::API::spiDataRW() (a custom wrapper for
           wiringPiSPIDataRW(), so that we can send in an aref to the C
           functions)
-
-0.01    Date/time
-        First version, released on an unsuspecting world.
 
