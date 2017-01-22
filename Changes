@@ -1,5 +1,8 @@
 Revision history for RPi-SPI
 
+2.36.2  2017-01-22
+        - fix params in pod, they weren't displaying correctly
+
 2.36.1  2017-01-22
         - initial release (version number matches wiringPi's, plus an
           incremental trailing decimal place for updates to this module

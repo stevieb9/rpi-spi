@@ -83,17 +83,13 @@ use, then returns the object.
 
 Parameters:
 
-=over 8
-=item   $channel
-=back
+    $channel
 
 The SPI bus channel to initialize.
 
 Mandatory: Integer, C<0> for C</dev/spidev0.0> or C<1> for C</dev/spidev0.1>.
 
-=over 8
-=item   $speed
-=back
+    $speed
 
 Optional, Integer. The data rate to communicate on the bus using. Defaults to
 C<1000000> (1MHz).
@@ -108,16 +104,12 @@ the freshly read data.
 
 Parameters:
 
-=over 8
-=item   $buf
-=back
+    $buf
 
 Mandatory: Array reference where each element is an unsigned char (0-255). This
 array is the write buffer; the data we'll be sending to the SPI bus.
 
-=over 8
-=item   $len
-=back
+    $len
 
 Mandatory: Integer, the number of array elements in the C<$buf> parameter sent
 in above.
