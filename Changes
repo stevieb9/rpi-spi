@@ -1,8 +1,12 @@
 Revision history for RPi-SPI
 
-2.36.2 UNREL
+2.36.1 UNREL
         - we now default to 1MHz speed if not specified in the new() method
+        - we now die() if we can't open or write to the SPI bus
+        - changed to using WiringPi::API::spiDataRW() (a custom wrapper for
+          wiringPiSPIDataRW(), so that we can send in an aref to the C
+          functions)
 
-2.36.1  Date/time
+0.01    Date/time
         First version, released on an unsuspecting world.
 

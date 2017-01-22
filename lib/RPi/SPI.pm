@@ -15,14 +15,18 @@ sub new {
     $self->_channel($channel);
     $self->_channel($speed);
 
-    wiringPiSPISetup($self->_channel, $self->_speed);
+    if (wiringPiSPISetup($self->_channel, $self->_speed) < 0){
+        die "couldn't establish communication on the SPI bus\n";
+    }
 
     return $self;
 }
 sub rw {
     my ($self, $buf, $len) = @_;
 
-    wiringPiSPIDataRW($self->_channel, $buf, $len);
+    if (spiDataRW($self->_channel, $buf, $len) < 0){
+        die "could not write to the SPI bus\n";
+    }
 }
 sub _channel {
     my ($self, $chan) = @_;
@@ -50,7 +54,7 @@ bus on Raspberry Pi
     my $spi = RPi::SPI->new($channel);
 
     my $buf = [0x01, 0x02];
-    my $len = scalar @$buf;
+    my $len = 2;
 
     $buf = $spi->rw($buf, $len);
 
