@@ -23,14 +23,8 @@ sub new {
 }
 sub rw {
     my ($self, $buf, $len) = @_;
-
-    my $status;
-
-    if ($status = spiDataRW($self->_channel, $buf, $len) < 0){
-        die "could not write to the SPI bus\n";
-    }
-
-    return $status;
+    my @read_buf = spiDataRW($self->_channel, $buf, $len);
+    return @read_buf;
 }
 sub _channel {
     my ($self, $chan) = @_;
