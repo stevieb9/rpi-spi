@@ -54,12 +54,18 @@ bus on Raspberry Pi
     my $buf = [0x01, 0x02];
     my $len = 2;
 
-    $buf = $spi->rw($buf, $len);
+    my @read_buf = $spi->rw($buf, $len);
 
     # write occurs, then a read, and the read buffer overwrites the
-    # write TX buffer, so the read data is in the write buffer after the call
+    # write TX buffer, and we return an array of that data
 
-    print "$_\n" for @$buf;
+    print "$_\n" for @read_buf;
+
+    # read-only
+
+    $buf = [0, 0, 0]; # three dummy bytes to signify a read of three bytes
+
+    my @read_bytes = $spi->rw($buf, 2);
 
 =head1 DESCRIPTION
 
@@ -94,7 +100,7 @@ Dies if we can't open the SPI bus.
 
 Writes specified data to the bus on the channel specified in C<new()>, then
 after completion, does a read of the bus and re-populates the write buffer with
-the freshly read data.
+the freshly read data, and returns it as an array.
 
 Parameters:
 
@@ -108,7 +114,8 @@ array is the write buffer; the data we'll be sending to the SPI bus.
 Mandatory: Integer, the number of array elements in the C<$buf> parameter sent
 in above.
 
-Return: The write buffer, after being re-populated with the read data.
+Return: The write buffer, after being re-populated with the read data, as a Perl
+array.
 
 Dies if we can't open the SPI bus.
 

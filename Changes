@@ -1,5 +1,10 @@
 Revision history for RPi-SPI
 
+2.36.3  2017-01-26
+        - changed rw() so that it now returns an array, per WiringPi::API's
+          spiDataRW() call. This was an oversight/bug in that code
+        - fix quoting issue in a prereq in Makefile.PL
+
 2.36.2  2017-01-22
         - fix params in pod, they weren't displaying correctly
 
