@@ -23,8 +23,8 @@ sub new {
 }
 sub rw {
     my ($self, $buf, $len) = @_;
-    my @read_buf = spiDataRW($self->_channel, $buf, $len);
-    return @read_buf;
+    @$buf = spiDataRW($self->_channel, $buf, $len);
+    return @$buf;
 }
 sub _channel {
     my ($self, $chan) = @_;
@@ -36,6 +36,7 @@ sub _speed {
     $self->{speed} = $speed if defined $speed;
     return $self->{speed} || 1000000;
 }
+sub _vim{};
 
 1;
 __END__
@@ -54,18 +55,18 @@ bus on Raspberry Pi
     my $buf = [0x01, 0x02];
     my $len = 2;
 
-    my @read_buf = $spi->rw($buf, $len);
+    @$buf = $spi->rw($buf, $len);
 
     # write occurs, then a read, and the read buffer overwrites the
-    # write TX buffer, and we return an array of that data
+    # write TX buffer, and we return the aref back to you 
 
-    print "$_\n" for @read_buf;
+    print "$_\n" for @$buf;
 
     # read-only
 
     $buf = [0, 0, 0]; # three dummy bytes to signify a read of three bytes
 
-    my @read_bytes = $spi->rw($buf, 2);
+    @$buf = $spi->rw($buf, 2);
 
 =head1 DESCRIPTION
 
@@ -115,7 +116,7 @@ Mandatory: Integer, the number of array elements in the C<$buf> parameter sent
 in above.
 
 Return: The write buffer, after being re-populated with the read data, as a Perl
-array.
+array reference.
 
 Dies if we can't open the SPI bus.
 
