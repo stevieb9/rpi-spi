@@ -5,7 +5,7 @@ use warnings;
 
 use WiringPi::API qw(:wiringPi);
 
-our $VERSION = '2.36.5';
+our $VERSION = '2.36.6';
 
 sub new {
     my ($class, $channel, $speed) = @_;
