@@ -15,6 +15,13 @@ sub new {
     $self->_channel($channel);
     $self->_channel($speed);
 
+    # check if we're in bit-banging mode
+
+    if ($self->_cs){
+        pin_mode($self->_cs, 1);
+        write_pin($self->_cs, 1);
+    }
+
     if (wiringPiSPISetup($self->_channel, $self->_speed) < 0){
         die "couldn't establish communication on the SPI bus\n";
     }
@@ -23,13 +30,38 @@ sub new {
 }
 sub rw {
     my ($self, $buf, $len) = @_;
-    @$buf = spiDataRW($self->_channel, $buf, $len);
+
+    if ($self->_cs){
+        pin_mode($self->_cs, 0);
+        @$buf = spiDataRW($self->_channel, $buf, $len);
+        pin_mode($self->_cs, 1);
+    }
+    else {
+        @$buf = spiDataRW($self->_channel, $buf, $len);
+    }
+
     return @$buf;
 }
 sub _channel {
     my ($self, $chan) = @_;
-    $self->{channel} = $chan if defined $chan;
+
+    if (defined $chan){
+        if ($chan > 1){
+            $self->_cs($chan);
+            $self->{channel} = 0;
+        }
+        else {
+            $self->{channel} = $chan;
+        }
+    }
+
     return $self->{channel};
+}
+sub _cs {
+    my ($self, $cs) = @_;
+
+    $self->{cs} = $cs if defined $cs;
+    return $self->{cs};
 }
 sub _speed {
     my ($self, $speed) = @_;
@@ -48,25 +80,22 @@ bus on Raspberry Pi
 
 =head1 SYNOPSIS
 
-    my $channel = 0;
+    # channel 0 and 1 are the hardware SPI pins
+    # CE0 and CE1
 
-    my $spi = RPi::SPI->new($channel);
+    my $spi = RPi::SPI->new(0);
 
     my $buf = [0x01, 0x02];
     my $len = 2;
 
     @$buf = $spi->rw($buf, $len);
 
-    # write occurs, then a read, and the read buffer overwrites the
-    # write TX buffer, and we return the aref back to you 
+    # use a GPIO pin to expand the number of SPI
+    # channels. We'll bit-bang automatically. The
+    # GPIO pin must connect to the CS/SS pin on the
+    # IC you're using
 
-    print "$_\n" for @$buf;
-
-    # read-only
-
-    $buf = [0, 0, 0]; # three dummy bytes to signify a read of three bytes
-
-    @$buf = $spi->rw($buf, 2);
+    $spi = RPi::SPI->new(26); # GPIO 26 is the CS
 
 =head1 DESCRIPTION
 
@@ -74,6 +103,10 @@ This distribution provides you the ability to communicate with devices attached
 to the channels on the Serial Peripheral Interface (SPI) bus. Although it was
 designed for the Raspberry Pi, that's not a hard requirement, and it should work
 on any Unix-type system that has support for SPI.
+
+You can use the hardware SPI pins CE0 and CE1 on the Raspberry Pi, but if you
+need more SPI slaves, we'll also automatically bit-bang the SPI bus using
+a standard GPIO pin for the Slave Select instead.
 
 =head1 METHODS
 
@@ -89,6 +122,9 @@ Parameters:
 The SPI bus channel to initialize.
 
 Mandatory: Integer, C<0> for C</dev/spidev0.0> or C<1> for C</dev/spidev0.1>.
+You can also send in any number above C<1>. If so, we'll treat it as a GPIO
+pin (connected to the CS/SS pin of the IC), and we'll bit-bang the CS
+automatically as to free up the onboard hardware channels.
 
     $speed
 

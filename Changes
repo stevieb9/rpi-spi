@@ -1,5 +1,14 @@
 Revision history for RPi-SPI
 
+2.36.5 2017-03-11
+        - we now accept a GPIO pin number as the channel. If 0 or 1 are sent
+          in as channel, we'll use the built-in RPi SPI channel (CE0 or CE1).
+          If a GPIO pin is sent in that is greater than 1, we'll know that this
+          connects to your CS/SS pin on your IC, and we'll automagically
+          bit-bang on that pin for communication, freeing up the two onboard
+          hardware SPI channels. The API was not changed for this. (closes #1)
+        - prereq of WiringPi::API now 2.36.7
+
 2.36.4  2017-01-26
         - changed rw() so that it now returns an array, per WiringPi::API's
           spiDataRW() call. This was an oversight/bug in that code
