@@ -1,6 +1,9 @@
 Revision history for RPi-SPI
 
-2.36.5 2017-03-11
+2.3606  2017-03-13
+        - changed version scheme from 2.36.x to to 2.360x in module and prereqs
+
+2.36.5  2017-03-11
         - we now accept a GPIO pin number as the channel. If 0 or 1 are sent
           in as channel, we'll use the built-in RPi SPI channel (CE0 or CE1).
           If a GPIO pin is sent in that is greater than 1, we'll know that this
