@@ -13,7 +13,7 @@ sub new {
     my $self = bless {}, $class;
 
     $self->_channel($channel);
-    $self->_channel($speed);
+    $self->_speed($speed);
 
     # check if we're in bit-banging mode
 
@@ -162,7 +162,7 @@ Steve Bertrand, C<< <steveb at cpan.org> >>
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright 2017 Steve Bertrand.
+Copyright 2017,2018 Steve Bertrand.
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of either: the GNU General Public License as published
