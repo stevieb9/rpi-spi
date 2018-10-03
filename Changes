@@ -1,6 +1,6 @@
 Revision history for RPi-SPI
 
-2.3609 UNREL
+2.3609  2018-10-03
         - fix documentation that claimed the return from rw() was an array
           reference, where really it's an array (closes #6)
 
