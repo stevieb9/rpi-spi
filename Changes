@@ -1,7 +1,8 @@
 Revision history for RPi-SPI
 
 2.3609 UNREL
-        -
+        - fix documentation that claimed the return from rw() was an array
+          reference, where really it's an array (closes #6)
 
 2.3608  2018-02-07
         - fix issue where we were calling _channel() twice in new(), instead
