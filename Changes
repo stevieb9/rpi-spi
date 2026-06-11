@@ -1,7 +1,7 @@
 Revision history for RPi-SPI
 
 2.3610 UNREL
-        -
+        - Fix undefined subs in bit-bang CS path against WiringPi::API 3.18
 
 2.3609  2018-10-03
         - fix documentation that claimed the return from rw() was an array

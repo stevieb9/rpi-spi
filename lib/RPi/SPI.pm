@@ -18,8 +18,8 @@ sub new {
     # check if we're in bit-banging mode
 
     if ($self->_cs){
-        pin_mode($self->_cs, 1);
-        write_pin($self->_cs, 1);
+        pinMode($self->_cs, 1);
+        digitalWrite($self->_cs, 1);
     }
 
     if (wiringPiSPISetup($self->_channel, $self->_speed) < 0){
@@ -32,9 +32,9 @@ sub rw {
     my ($self, $buf, $len) = @_;
 
     if ($self->_cs){
-        pin_mode($self->_cs, 0);
+        digitalWrite($self->_cs, 0);
         @$buf = spiDataRW($self->_channel, $buf, $len);
-        pin_mode($self->_cs, 1);
+        digitalWrite($self->_cs, 1);
     }
     else {
         @$buf = spiDataRW($self->_channel, $buf, $len);
