@@ -1,7 +1,12 @@
 Revision history for RPi-SPI
 
 3.1802 UNREL
-    -
+    - GPIO chip-select transfers now hold the hardware CE line off with
+      SPI_NO_CS (via WiringPi::API's spiNoCS()) so they no longer strobe
+      a device on CE0/CE1; requires WiringPi::API 3.1804
+    - Added full software bit-bang mode: pass new() a hashref of clk, mosi,
+      miso, cs (and optional mode/delay) GPIO pins to run the whole bus in
+      software via WiringPi::API's spiBitBang()
 
 3.1801    2026-06-12
         - Fix undefined subs in bit-bang CS path against WiringPi::API 3.18
