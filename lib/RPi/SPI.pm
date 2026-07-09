@@ -82,6 +82,14 @@ sub new {
 sub rw {
     my ($self, $buf, $len) = @_;
 
+    if (! defined $buf || ref $buf ne 'ARRAY') {
+        croak "RPi::SPI rw() requires \$buf as an array reference\n";
+    }
+
+    if (! defined $len || $len !~ /^\d+$/ || $len == 0) {
+        croak "RPi::SPI rw() requires \$len as a positive integer\n";
+    }
+
     if ($self->_bitbang){
         my $bb = $self->_bitbang;
 
@@ -157,7 +165,18 @@ sub _cs {
 }
 sub _speed {
     my ($self, $speed) = @_;
-    $self->{speed} = $speed if defined $speed;
+
+    # An undefined speed means "use the default"; a defined speed must be a
+    # positive integer. Reject an explicit 0/negative/non-numeric rather than
+    # silently rewriting it to the 1MHz default (which hid caller mistakes)
+
+    if (defined $speed) {
+        if ($speed !~ /^\d+$/ || $speed == 0) {
+            croak "RPi::SPI speed must be a positive integer (Hz)\n";
+        }
+        $self->{speed} = $speed;
+    }
+
     return $self->{speed} || 1000000;
 }
 sub _spi_no_cs {

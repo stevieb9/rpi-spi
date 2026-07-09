@@ -7,6 +7,15 @@ Revision history for RPi-SPI
     - Added full software bit-bang mode: pass new() a hashref of clk, mosi,
       miso, cs (and optional mode/delay) GPIO pins to run the whole bus in
       software via WiringPi::API's spiBitBang()
+    - new()'s speed parameter now croaks on an explicit non-positive or
+      non-integer value instead of silently rewriting it to the 1MHz default;
+      an undefined speed still means "use the default"
+    - rw() now croaks on a non-arrayref buffer or a non-positive-integer length
+      instead of failing deep in the transport layer
+    - Added t/05-unit.t: HW-free coverage of channel/CS routing, speed handling,
+      bit-bang param validation, rw() argument validation, and the rw() framing
+      sequence for the plain, GPIO-CS (with and without SPI_NO_CS), and bit-bang
+      paths (transport funcs stubbed - no bus, no wiring)
 
 3.1801    2026-06-12
         - Fix undefined subs in bit-bang CS path against WiringPi::API 3.18
