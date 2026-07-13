@@ -1,5 +1,8 @@
 Revision history for RPi-SPI
 
+3.1803 UNREL
+    -
+
 3.1802    2026-07-13
     - GPIO chip-select transfers now hold the hardware CE line off with
       SPI_NO_CS (via WiringPi::API's spiNoCS()) so they no longer strobe

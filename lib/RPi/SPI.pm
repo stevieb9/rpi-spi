@@ -6,7 +6,7 @@ use warnings;
 use Carp qw(croak);
 use WiringPi::API qw(:wiringPi);
 
-our $VERSION = '3.1802';
+our $VERSION = '3.1803';
 
 sub new {
     my ($class, $channel, $speed) = @_;
