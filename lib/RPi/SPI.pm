@@ -206,17 +206,15 @@ bus on Raspberry Pi
 
     my @data = $spi->rw($buf, $len);
 
-    # use a GPIO pin to expand the number of SPI
-    # channels. The transfer still runs on the
-    # hardware SPI engine, but the hardware CE line
-    # is held off (SPI_NO_CS) and we drive this GPIO
-    # as the CS. It must connect to the CS/SS pin on
-    # the IC you're using
+    # Use a GPIO pin to expand the number of SPI channels. The transfer still
+    # runs on the hardware SPI engine, but the hardware CE line is held off
+    # (SPI_NO_CS) and we drive this GPIO as the CS. It must connect to the CS/SS
+    # pin on the IC you're using
 
     $spi = RPi::SPI->new(26); # GPIO 26 is the CS
 
-    # or run the whole bus in software on any GPIO
-    # pins by passing a hashref of bit-bang params
+    # Or run the whole bus in software on any GPIO pins by passing a hashref of
+    # bit-bang params
 
     $spi = RPi::SPI->new({ clk => 21, mosi => 20, miso => 19, cs => 26 });
 
